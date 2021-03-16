@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import React from 'react'
 import DataBars from './DataBars'
 
-export default function BubbleSort(props) {
+export default function MergeSort(props) {
     const [data, setData] = useState([]);
     const [dataIdx, setDataIdx] = useState({});
     const [indices, setIndices] = useState({
@@ -25,8 +25,7 @@ export default function BubbleSort(props) {
         array = array.map(num => parseFloat(num));
         setData(array);
         setIndices({i:0, j:0});
-        
-        //add indices to idxMap
+    
         for (let i = 0; i < array.length; i++){
             if (!(array[i] in idxMap))
                 idxMap[array[i]] = i;
@@ -109,7 +108,7 @@ export default function BubbleSort(props) {
     const lastItr = () => {
 
     }
-    
+
     return (
         <div>
             <button onClick={(e)=>{
