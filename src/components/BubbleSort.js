@@ -2,6 +2,7 @@ import {useState, useEffect} from 'react'
 import React from 'react'
 
 export default function BubbleSort() {
+    const [data, setData] = useState([]);
     const [dataIdx, setDataIdx] = useState({});
     const [arrayField, setArrayField] = useState('');
     const [indices, setIndices] = useState({
@@ -111,6 +112,24 @@ export default function BubbleSort() {
     <div>
         <h1>Bubble Sort</h1>
         <div>
+        <form>
+            <label>
+            Enter values to sort (separate with commas):
+            <input type="text" value={arrayField} 
+            onChange={
+                (e) => {
+                handleChange(e);
+                }} />
+            </label>
+            <button onClick={(e)=>{
+            e.preventDefault();
+            nextItr();
+            }}>Next</button>
+            <button onClick={(e)=>{
+            e.preventDefault();
+            prevItr();
+            }}>Prev</button>
+        </form>
         </div>
         <div>
         {
