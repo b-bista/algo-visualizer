@@ -2,7 +2,7 @@ import {useState, useEffect} from 'react'
 import React from 'react'
 
 export default function BubbleSort() {
-    const [data, setData] = useState([]);
+    const [dataIdx, setDataIdx] = useState({});
     const [arrayField, setArrayField] = useState('');
     const [indices, setIndices] = useState({
         i: 0,
@@ -10,8 +10,10 @@ export default function BubbleSort() {
     });
 
     const handleChange = (event) => {
+        let idxMap = {};
         //controls input field
-        let field = event.target.value
+        let field = event.target.value;
+        setDataIdx(idxMap);
         setArrayField(field);
 
         //converts input field to array
@@ -19,38 +21,50 @@ export default function BubbleSort() {
         array = array.map(num => parseFloat(num));
         setData(array);
         setIndices({i:0, j:0});
+
+        for (let i = 0; i < array.length; i++){
+            if (!(array[i] in idxMap))
+                idxMap[array[i]] = i;
+        }
+
+        setDataIdx(idxMap);
+
     }
     
     const firstItr = () => {
+        let arr = [...data];
+
+        let i = indices.i;
+        let j = indices.j;
+
         
     }
     
     const prevItr = () => {
 
-    let arr = [...data];
+        let arr = [...data];
 
-    let i = indices.i;
-    let j = indices.j;
+        let i = indices.i;
+        let j = indices.j;
 
-    //check i
-    if (i >= 0){
-        if (i == 0 && j == 0) return
-        
-        //check j
-        if (j > 0){
-        //if greater, swap
-        if (arr[j] > arr[j-1]) {
-            let temp = arr[j];
-            arr[j] = arr[j-1];
-            arr[j-1] = temp;
-            setData(arr);
-        }
-        setIndices({i, j:j-1})
-        }
-        //else reset j and increment i
-        else{
-        setIndices({i:i-1, j: arr.length-i})
-        }
+        //check i
+        if (i >= 0){
+            if (i == 0 && j == 0) return
+            
+            //check j
+            if (j >= 0){
+                //if greater, swap
+                if (arr[j] > arr[j-1] && dataIdx[arr[j]] !== j) {
+                    let temp = arr[j];
+                    arr[j] = arr[j-1];
+                    arr[j-1] = temp;
+                    setData(arr);
+                }
+                setIndices({i, j:j-1})
+            }
+            //else reset j and increment i
+            else
+                setIndices({i:i-1, j: arr.length-i})
     }
     else 
         return
@@ -97,24 +111,6 @@ export default function BubbleSort() {
     <div>
         <h1>Bubble Sort</h1>
         <div>
-        <form>
-            <label>
-            Enter values to sort (separate with commas):
-            <input type="text" value={arrayField} 
-            onChange={
-                (e) => {
-                handleChange(e);
-                }} />
-            </label>
-            <button onClick={(e)=>{
-            e.preventDefault();
-            nextItr();
-            }}>Next</button>
-            <button onClick={(e)=>{
-            e.preventDefault();
-            prevItr();
-            }}>Prev</button>
-        </form>
         </div>
         <div>
         {
