@@ -4,16 +4,35 @@ import BubbleSort from './components/BubbleSort'
 
 function App() {
 
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState([]);
   const [arrayField, setArrayField] = useState('');
-  const [algo, setAlgo] = useState('bubbleSort');
+  const [currAlgo, setCurrAlgo] = useState('bubbleSort');
+  const [indices, setIndices] = useState({
+    i: 0,
+    j: 0
+  });
 
   const handleAlgoChange = (event) => {
-    setAlgo(event.target.value);
+    setCurrAlgo(event.target.value);
+    setData([]);
+    setIndices({i: 0, j: 0});
   }
 
   const handleArrayFieldChange = (event) => {
-    setArrayField(event.target.value);
+    let field = event.target.value
+    setArrayField(field);
+
+    let convertedArray = stringToArrayNum(field);
+    console.log(convertedArray);
+    setData(convertedArray);
+    setIndices({i:0, j:0});
+  }
+  
+  const stringToArrayNum = (field) => {
+    //also removes white space
+    let array = field.replace(/\s/g, '').split(',');
+    array = array.map(num => parseFloat(num));
+    return array;
   }
 
   const components = {
@@ -27,7 +46,12 @@ function App() {
     }
   }
 
-  const CurrComponent = components[algo].component;
+  const CurrComponent = components[currAlgo].component;
+  const componentOptions = Object.keys(components).map((algo)=>{
+    return (<option value={algo}>{components[algo].name}</option>)
+  })
+
+
 
   return (
     <div className="App" style={{textAlign: 'center', width: 'auto'}}>
@@ -35,11 +59,10 @@ function App() {
          <form>
          <label>
            Pick your Algorithm:
-           <select value={algo} onChange={handleAlgoChange}>
-             <option value="bubbleSort">BubbleSort</option>
-             <option value="quickSort">QuickSort</option>
-             <option value="mergeSort">MergeSort</option>
-             <option value="selectionSort">SelectionSort</option>
+           <select value={currAlgo} onChange={handleAlgoChange}>
+             {
+              componentOptions
+             }
            </select>
          </label>
        </form>
@@ -53,7 +76,10 @@ function App() {
             </label>
         </form>
        < CurrComponent 
-       arrayField={arrayField}
+       data={data}
+       indices={indices}
+       setIndices={setIndices}
+       setData={setData}
        />
     </div>
   )

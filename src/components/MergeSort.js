@@ -1,46 +1,25 @@
-import {useState, useEffect} from 'react'
 import React from 'react'
 import DataBars from './DataBars'
 
-export default function MergeSort(props) {
-    const [data, setData] = useState([]);
-    const [dataIdx, setDataIdx] = useState({});
-    const [indices, setIndices] = useState({
-        i: 0,
-        j: 0,
-    });
+export default function MergeSort({data, indices, setIndices, setData}) {
 
-    useEffect(() => {
-        handleParentChange();
-    }, [props])
-    
-    const handleParentChange = () => {
+    const updateIdxMap = (array=[]) => {
+        //add indices to idxMap
         let idxMap = {};
-        setDataIdx(idxMap);
 
-        let field = props.arrayField;
-    
-        //converts input field to array
-        let array = field.replace(/\s/g, '').split(',');
-        array = array.map(num => parseFloat(num));
-        setData(array);
-        setIndices({i:0, j:0});
-    
         for (let i = 0; i < array.length; i++){
             if (!(array[i] in idxMap))
                 idxMap[array[i]] = i;
         }
-    
-        setDataIdx(idxMap);
-    } 
+
+        return idxMap;
+    }
 
     const firstItr = () => {
         let arr = [...data];
 
         let i = indices.i;
         let j = indices.j;
-
-        
     }
     
     const prevItr = () => {
@@ -108,6 +87,8 @@ export default function MergeSort(props) {
     const lastItr = () => {
 
     }
+    
+    const dataIdx = updateIdxMap(data)
 
     return (
         <div>

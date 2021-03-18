@@ -6,7 +6,7 @@ export default function DataBars(props) {
     return (
         <div>
         {
-        data.map((item, idx) => {
+        data && data.map((item, idx) => {
             if (item) {
             let color = (idx === indices.j || idx === indices.j+1) ? 'green' : 'grey';
             if (idx > data.length - indices.i - 1) color = 'red';
